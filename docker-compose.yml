@@ -1,0 +1,53 @@
+version: "3.5"
+x-logging: &default-logging
+  options:
+    max-size: "100m"
+    max-file: "15"
+  driver: json-file
+
+services:
+  yeli-store-db:
+    image: mariadb:10.5
+    container_name: yeli-store-db
+    restart: unless-stopped
+    volumes:
+      - ./db-data:/var/lib/mysql
+    ports:
+      - "3308:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: 123
+    networks:
+      yeli_store_private-net:
+        aliases:
+          - local.yeli-store-db
+
+  yeli-store-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: yeli-store-api
+    #command: [ "sh", "-c", "php -S 0.0.0.0:8000 -t ./public" ]
+    tty: true
+    user: root
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    ports:
+      - "8099:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 3250M
+        reservations:
+          memory: 500M
+    logging: *default-logging
+    networks:
+      yeli_store_private-net:
+        aliases:
+          - local.yeli-store-api
+    depends_on:
+      - yeli-store-db
+
+networks:
+  yeli_store_private-net:
