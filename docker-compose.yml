@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     container_name: yeli-store-api
-    #command: [ "sh", "-c", "php -S 0.0.0.0:8000 -t ./public" ]
+    command: [ "sh", "-c", "php -S 0.0.0.0:8000 -t ./public" ]
     tty: true
     user: root
     volumes:
