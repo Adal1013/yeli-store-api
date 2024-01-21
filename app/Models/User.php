@@ -19,6 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'address',
+        'city',
+        'document_number',
+        'document_type',
         'email',
         'password',
     ];
@@ -42,4 +47,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Define la relación con la tabla 'roles'.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+     public function roles()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Define la relación con la tabla 'orders'.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    
 }
