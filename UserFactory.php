@@ -26,12 +26,12 @@ class UserFactory extends Factory
     {
         $role = Role::factory()->create();
         return [
-            'name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
+            'name' => fake()->name(),
+            'last_name' => fake()->last_name(),
             'address' => fake()->address(),
             'city' => fake()->city(),
-            'document_number' => fake()->randomNumber(),
-            'document_type' => fake()->randomElement(['CC', 'PS', 'TI']),
+            'document_number' => fake()->document_number(),
+            'document_type' => fake()->document_number(),
             'role_id' => $role->id,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
