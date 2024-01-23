@@ -18,7 +18,11 @@ class CategoryFactory extends Factory
     {
         return [
             'code' => fake()->randomNumber(),
-            'name' => fake()->name(),
+            'name' => fake()->randomElement([
+                'niña',
+                'niño',
+                'adulto'
+            ]),
         ];
     }
 }

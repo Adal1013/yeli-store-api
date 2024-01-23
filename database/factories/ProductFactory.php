@@ -21,7 +21,14 @@ class ProductFactory extends Factory
         return [
             'category_id' => $category->id,
             'code' => fake()->randomNumber(),
-            'name' => fake()->name(),
+            'name' => fake()->randomElement([
+                'gancho',
+                'cintillo',
+                'bincha',
+                'desodorante',
+                'ligas',
+                'aretes'
+            ]),
             'stock' => fake()->randomDigit(),
             'value' => fake()->randomFloat(),
         ];
