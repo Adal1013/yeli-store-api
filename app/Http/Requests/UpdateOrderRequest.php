@@ -22,7 +22,9 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'type'   => 'required|string',
+            'amount' => 'required|numeric',
+            'status' => 'required|string',
         ];
     }
 }
