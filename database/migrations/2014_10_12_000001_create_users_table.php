@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('city', 100);
             $table->string('document_number', 50);
             $table->char('document_type', 3);
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('role_id')->unsigned()->index();
             $table->foreign('role_id')->references('id')->on('roles');
             $table->string('email', 50)->unique();
             $table->timestamp('email_verified_at')->nullable();

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('type', 100);
             $table->float('amount', 100);
             $table->char('status', 3);
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();

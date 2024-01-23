@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->Integer('quantity');
             $table->float('amount');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->unsigned()->index();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('order_id')->unsigned()->index();
             $table->foreign('order_id')->references('id')->on('orders');
         });
     }
