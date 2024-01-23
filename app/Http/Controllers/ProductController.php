@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Database\Eloquent\ProductEloquent;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -13,15 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $products = ProductEloquent::getDataModel();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return ProductResource::collection($products);
     }
 
     /**
@@ -29,7 +25,9 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $product = Product::create($request->all());
+
+        return new ProductResource($product);
     }
 
     /**
@@ -37,15 +35,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
+        return new ProductResource($product);
     }
 
     /**
@@ -53,7 +43,9 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product->fill($request->all())->save();
+
+        return new ProductResource($product);
     }
 
     /**
@@ -61,6 +53,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return new ProductResource($product);
     }
 }

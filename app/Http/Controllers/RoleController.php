@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Database\Eloquent\RoleEloquent;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use PhpParser\Node\Expr\New_;
 
 class RoleController extends Controller
 {
@@ -13,15 +16,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $roles = RoleEloquent::getDataModel();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return RoleResource::collection($roles);
     }
 
     /**
@@ -29,7 +26,9 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        //
+        $role = Role::create($request->all());
+
+        return new RoleResource($role);
     }
 
     /**
@@ -37,23 +36,17 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role)
-    {
-        //
+        return new RoleResource($role);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update( Role $role, UpdateRoleRequest $request)
     {
-        //
+        $role->fill($request->all())->save();
+
+        return new RoleResource($role);
     }
 
     /**
@@ -61,6 +54,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return new RoleResource($role);
     }
 }

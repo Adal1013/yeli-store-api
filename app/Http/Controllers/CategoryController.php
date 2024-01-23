@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Database\Eloquent\CategoryEloquent;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -13,15 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $categories = CategoryEloquent::getDataModel();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return CategoryResource::collection($categories);
     }
 
     /**
@@ -29,7 +25,9 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = Category::create($request->all());
+
+        return new CategoryResource($category);
     }
 
     /**
@@ -37,15 +35,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
+        return new CategoryResource($category);
     }
 
     /**
@@ -53,7 +43,9 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category->fill($request->all())->save();
+
+        return new CategoryResource($category);
     }
 
     /**
@@ -61,6 +53,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return new CategoryResource($category);
     }
 }

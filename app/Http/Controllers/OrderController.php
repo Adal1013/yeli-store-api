@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Database\Eloquent\OrderEloquent;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 
 class OrderController extends Controller
@@ -13,15 +15,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $orders = OrderEloquent::getDataModel();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return OrderResource::collection($orders);
     }
 
     /**
@@ -29,7 +25,9 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $order = Order::create($request->all());
+
+        return new OrderResource($order);
     }
 
     /**
@@ -37,15 +35,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
+        return new OrderResource($order);
     }
 
     /**
@@ -53,7 +43,9 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $order->fill($request->all())->save();
+
+        return new OrderResource($order);
     }
 
     /**
@@ -61,6 +53,8 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+
+        return new OrderResource($order);
     }
 }
