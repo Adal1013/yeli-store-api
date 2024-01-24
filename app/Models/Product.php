@@ -19,6 +19,7 @@ class Product extends Model
         'code',
         'value',
         'stock',
+        "category_id"
     ];
 
     /**

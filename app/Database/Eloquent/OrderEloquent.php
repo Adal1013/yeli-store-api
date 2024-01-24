@@ -3,7 +3,6 @@
 namespace App\Database\Eloquent;
 
 use App\Models\Order;
-use \Illuminate\Database\Eloquent\Collection;
 
 class OrderEloquent
 {

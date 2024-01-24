@@ -19,8 +19,8 @@ use App\Models\Role;
 |
 */
 
-Route::resource('/user', UserController::class);
-Route::resource('/role', RoleController::class);
-Route::resource('/product', ProductController::class);
-Route::resource('/category', CategoryController::class);
-Route::resource('/order', OrderController::class);
+Route::resource('/categories', CategoryController::class);
+Route::resource('/products', ProductController::class);
+Route::resource('/orders', OrderController::class);
+Route::resource('/roles', RoleController::class);
+Route::resource('/users', UserController::class);

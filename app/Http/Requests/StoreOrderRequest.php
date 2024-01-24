@@ -11,7 +11,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,7 @@ class StoreOrderRequest extends FormRequest
             'type'   => 'required|string',
             'amount' => 'required|numeric',
             'status' => 'required|string',
+            'user_id' => 'required|numeric'
         ];
     }
 }
