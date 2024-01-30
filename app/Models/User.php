@@ -24,6 +24,7 @@ class User extends Authenticatable
         'city',
         'document_number',
         'document_type',
+        'role_id',
         'email',
         'password',
     ];
@@ -67,6 +68,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function tokens()
+{
+    return $this->hasMany(PersonalAccessToken::class);
+}
 
     
 }

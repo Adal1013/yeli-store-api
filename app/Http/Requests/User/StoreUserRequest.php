@@ -26,14 +26,14 @@ class StoreUserRequest extends FormRequest
   {
     return [
         'name'            => 'required|string',
-        'last_name'       => 'required|string',
-        'address'         => 'required|string',
+        'last_name'       => 'nullable|string',
+        'address'         => 'nullable|string',
         'city'            => 'nullable|string',
         'document_number' => 'nullable|string',
         'document_type'   => 'nullable|string',
         'role_id'         => 'required',
-        'email'           => 'nullable|email',
-        'password'        => 'nullable|string'
+        'email'           => 'required|email',
+        'password'        => 'required|string'
     ];
   }
 }
