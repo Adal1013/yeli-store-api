@@ -3,24 +3,29 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\ResetCodePassword;
-use Illuminate\Foundation\Auth\User;
+//use Illuminate\Foundation\Auth\User;
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
+
 
 class ResetPasswordController extends ApiController
 {
     /**
-     * Change the password (Setp 3)
+     * Restablece la contraseña del usuario usando un código temporal.
+     *
      *
      * @param  mixed $request
      * @return void
      */
-    public function __invoke(ResetPasswordRequest $request)
+    public function __invoke(Request $request)
     {
         $passwordReset = ResetCodePassword::firstWhere('code', $request->code);
 
-        if ($passwordReset->isExpire()) {
-            return $this->jsonResponse(null, trans('passwords.code_is_expire'), 422);
+        if ($passwordReset->created_at > now()->addHour()) {
+            $passwordReset->delete();
+            
+            return response(['message' => trans('El codigo esta caducado')], 422);
         }
 
         $user = User::firstWhere('email', $passwordReset->email);
@@ -29,6 +34,6 @@ class ResetPasswordController extends ApiController
 
         $passwordReset->delete();
 
-        return $this->jsonResponse(null, trans('site.password_has_been_successfully_reset'), 200);
+        return response()->json(["mensaje" => trans('La contraseña se ha restablecido correctamente'),200], );
     }
 }

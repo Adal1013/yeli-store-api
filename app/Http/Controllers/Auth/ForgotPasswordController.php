@@ -25,6 +25,6 @@ class ForgotPasswordController extends Controller
 
         Mail::to($request->email)->send(new SendCodeResetPassword($codeData->code));
 
-        return $this->jsonResponse(null, trans('passwords.sent'), 200);
+        return response()->json(["mensaje" => trans('codigo enviado')], 200);
     }
 }

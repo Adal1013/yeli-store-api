@@ -28,7 +28,7 @@ Route::post('register', [AuthController::class, 'register']);
 
 // Password reset routes
 Route::post('password/email',  ForgotPasswordController::class);
-Route::post('password/code/check', CodeCheckController::class);
+Route::get('password/check/{code}', CodeCheckController::class);
 Route::post('password/reset', ResetPasswordController::class);
 
 Route::middleware(['auth:sanctum'])->group(function () {
