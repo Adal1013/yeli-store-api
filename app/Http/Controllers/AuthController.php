@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-use Illuminate\Validation\UnauthorizedException;
-
-use function Laravel\Prompts\password;
 
 class AuthController extends Controller 
 {
+    /**
+     * Valida los datos del usuario entrante y crea un nuevo usuario en la base de datos.
+     * Si la creación es exitosa, devuelve un token de autenticación para el usuario.
+     * @param Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -40,7 +43,7 @@ class AuthController extends Controller
             'document_type' => $request->document_type,
             'role_id' => $request->role_id,
             'email'   => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -49,6 +52,12 @@ class AuthController extends Controller
             ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer' ]); 
     }
 
+    /**
+     * Intenta iniciar sesión al usuario con los datos proporcionados.
+     * Si la autenticación es exitosa, devuelve un token de acceso y los datos del usuario.
+     * @param  \Illuminate\Http\Request $request 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         if (!auth::attempt($request->only('email', 'password')))
@@ -60,13 +69,17 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Hi '.$user->name,
+            'message'     => 'Hi '.$user->name,
             'accessToken' => $token,
             'token_type'  => 'Bearer',
-            'user'  => $user,
+            'user'        => $user,
         ]);
     }
 
+    /**
+     * Cierra la sesión del usuario actual y elimina todos sus tokens de autenticación.
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout() 
     {
         auth()->user()->tokens()->delete();
