@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Database\Eloquent\UserEloquent;
+use App\Exports\UsersExport;
+use App\Exports\UsersExportPDF;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
+
 
 class UserController extends Controller
 {
@@ -57,4 +62,13 @@ class UserController extends Controller
        
         return new UserResource($user);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+    
 }

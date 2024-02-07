@@ -25,15 +25,10 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($users as $item)
             
             <tr>
-                <td> {{$item->name}}  </td>
+                <td></td>
             </tr>
-                
-            @empty
-                
-            @endforelse
             
         </tbody>
     </table>
