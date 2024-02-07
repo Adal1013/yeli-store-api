@@ -3,32 +3,20 @@
 namespace App\Exports;
 
 use App\Models\User;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Barryvdh\DomPDF\Facade as PDF;
 
-// class UsersExportPDF
-// {
-//     /**
-//     * Exporta los datos de usuarios a un archivo PDF.
-//     *
-//     * @return \Dompdf\Dompdf
-//     */
-//     public function exportPDF()
-//     {
-//         // Obtener datos de los usuarios
-//         $users = User::all();
+class UsersExportPDF implements FromCollection
+{
+    use Exportable;
 
-//         // Opciones de dompdf
-//         $options = new Options();
-//         $options->set('isHtml5ParserEnabled', true);
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function collection()
+    {
+        return User::all();
+    }
+}
 
-//         // Inicializar dompdf
-//         $dompdf = new Dompdf($options);
-
-//         // Renderizar el PDF
-//         $dompdf->render();
-
-//         // Devolver el objeto dompdf
-//         return $dompdf;
-//     }
-// }
