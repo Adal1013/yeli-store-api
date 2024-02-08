@@ -71,6 +71,7 @@ class UserController extends Controller
 
     public function usersPdf(User $user)
     {
+        FacadePdf::setPaper('A4');
         $users = User::all();
         $pdf = FacadePdf::loadView('pdf.users', compact('users'));
         return $pdf->stream('users.pdf');
