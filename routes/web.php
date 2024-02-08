@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () return view('welcome');});
+
+Route::get('pdf/users', [UserController::class, 'usersPdf']);
+Route::get('categories/exportPDF', [CategoryController::class, 'exportPDF']);
+Route::get('roles/exportPDF', [OrderController::class, 'exportPDF']);
+Route::get('products/exportPDF', [ProductController::class, 'exportPDF']);
+Route::get('orders/exportPDF', [RoleController::class, 'exportPDF']);

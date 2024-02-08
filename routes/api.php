@@ -31,7 +31,7 @@ Route::post('password/email',  ForgotPasswordController::class);
 Route::get('password/check/{code}', CodeCheckController::class);
 Route::post('password/reset', ResetPasswordController::class);
 Route::get('users/export/', [UserController::class, 'export']);
-Route::get('users/exportPDF/', [UserController::class, 'exportPDF']);
+//Route::get('users/exportPDF/', [UserController::class, 'exportPDF']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);

@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Database\Eloquent\UserEloquent;
-use App\Exports\UsersExport;
-use App\Exports\UsersExportPDF;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
+use App\Exports\UsersExport;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Response;
 
 
 class UserController extends Controller
@@ -72,53 +69,10 @@ class UserController extends Controller
         return Excel::download(new UsersExport, 'users.xlsx');
     }
 
-    /**
-    * Export users data to PDF.
-    */
-    public function exportPDF()
+    public function usersPdf(User $user)
     {
         $users = User::all();
-        $header = $this->generateHeader(); // Obtener el HTML del encabezado
-
-        // Construir la tabla HTML para mostrar los usuarios
-        $table = '<table border="1" style="border-collapse: collapse; width: 100%;">';
-        $table .=    
-        '<tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Fecha de Creación</th>
-        </tr>';
-
-        foreach ($users as $user) {
-            $table .= '<tr>';
-            $table .= '<td>' . $user->id . '</td>';
-            $table .= '<td>' . $user->name . '</td>';
-            $table .= '<td>' . $user->email . '</td>';
-            $table .= '<td>' . $user->created_at->format('Y-m-d H:i:s') . '</td>';
-            $table .= '</tr>';
-        }
-        $table .= '</table>';
-
-        // Combinar el encabezado, la tabla y el contenido del PDF
-        $pdfContent = $header . '<h1>Usuarios</h1>' . $table;
-
-        // Generar el PDF y devolverlo
-        $pdf = PDF::loadHTML($pdfContent);
-        return $pdf->stream('documento.pdf');
+        $pdf = FacadePdf::loadView('pdf.users', compact('users'));
+        return $pdf->stream('users.pdf');
     }
-
-   
-
-    private function generateHeader()
-    {
-        $header = '<div style="text-align: center; padding: 20px; background-color: #FC5F1A">';
-        $header .= '<h1>USUARIOS</h1>';
-        $header .= '<img src="' . public_path('images/pngwing.png') . '" alt="Logo" style="max-width: 200px; margin-top: 10px;">';
-        $header .= '</div>';
-
-        return $header;
-    }
-
-    
 }
