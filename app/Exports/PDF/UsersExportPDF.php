@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\PDF;
 
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Barryvdh\DomPDF\Facade as PDF;
 
 class UsersExportPDF implements FromCollection
 {

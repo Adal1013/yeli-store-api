@@ -41,21 +41,15 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Dirección</th>
-            <th>Documento</th>
-            <th>Email</th>
+            <th>Codigo</th>
             <th>Fecha de Creación</th>
         </tr>
-        @foreach ($users as $user)
+        @foreach ($categories as $category)
             <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->last_name }}</td>
-                <td>{{ $user->address }}</td>
-                <td>{{ $user->document_number }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                <td>{{ $category->id }}</td>
+                <td>{{ $category->name }}</td>
+                <td>{{ $category->code }}</td>
+                <td>{{ $category->created_at->format('Y-m-d') }}</td>
             </tr>
         @endforeach
     </table>

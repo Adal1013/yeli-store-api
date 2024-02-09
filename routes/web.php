@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () return view('welcome');});
 
 Route::get('pdf/users', [UserController::class, 'usersPdf']);
-Route::get('categories/exportPDF', [CategoryController::class, 'exportPDF']);
+Route::get('pdf/categories', [CategoryController::class, 'categoriesPdf']);
 Route::get('roles/exportPDF', [OrderController::class, 'exportPDF']);
 Route::get('products/exportPDF', [ProductController::class, 'exportPDF']);
 Route::get('orders/exportPDF', [RoleController::class, 'exportPDF']);

@@ -6,7 +6,7 @@ use App\Database\Eloquent\UserEloquent;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Exports\UsersExport;
+use App\Exports\Excel\UsersExport;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -25,6 +25,7 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @param StoreUserRequest $request
      */
     public function store(StoreUserRequest $request)
     {
@@ -35,6 +36,7 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     * @param User $user
      */
     public function show(User $user)
     {
@@ -43,6 +45,8 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param User $user
+     * @param StoreUserRequest $request
      */
     public function update(User $user, StoreUserRequest $request)
     {
@@ -53,6 +57,7 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param User $user
      */
     public function destroy(User $user)
     {
@@ -62,18 +67,22 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Función exportar Excel.
      */
     public function export()
     {
         return Excel::download(new UsersExport, 'users.xlsx');
     }
 
+    /**
+     * Funcion expoertar PDF.
+     * @param User $user
+     */
     public function usersPdf(User $user)
     {
-        FacadePdf::setPaper('A4');
         $users = User::all();
-        $pdf = FacadePdf::loadView('pdf.users', compact('users'));
+        $pdf = FacadePdf::loadView('pdf.users', compact('users'))->setPaper('A3');
+
         return $pdf->stream('users.pdf');
     }
 }
